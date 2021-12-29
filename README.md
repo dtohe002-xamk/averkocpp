@@ -150,296 +150,296 @@ LIITE
 
 Alkuperäinen Python-lähdekoodi, jonka kirjoitin kesällä 2021.
 #############################################################################################################
-# 20210703 th
-# HT.py
-import HT_kirjasto
+	# 20210703 th
+	# HT.py
+	import HT_kirjasto
 
-def menu():
-    '''Main menu'''
-    print("Mitä haluat tehdä:")
-    print("1) Lue tiedosto")
-    print("2) Analysoi tiedot")
-    print("3) Tallenna tulokset")
-    print("4) Päiväanalyysi")
-    print("5) Kuukausianalyysi")
-    print("6) Tuntianalyysi")
-    print("7) Kumulatiivinen päiväanalyysi")
-    print("0) Lopeta")
-    slct = int(input("Valintasi: "))
-    return slct
+	def menu():
+	    '''Main menu'''
+	    print("Mitä haluat tehdä:")
+	    print("1) Lue tiedosto")
+	    print("2) Analysoi tiedot")
+	    print("3) Tallenna tulokset")
+	    print("4) Päiväanalyysi")
+	    print("5) Kuukausianalyysi")
+	    print("6) Tuntianalyysi")
+	    print("7) Kumulatiivinen päiväanalyysi")
+	    print("0) Lopeta")
+	    slct = int(input("Valintasi: "))
+	    return slct
 
-def paaohjelma():
-    data = []
-    results = []
-    inputFile = ""
-    while True:
-        slct = menu()
-        if (slct == 1):
-            inputFile = input("Anna luettavan tiedoston nimi: ")
-            data = HT_kirjasto.readFile(inputFile, data)
-        elif (slct == 2):
-            results = HT_kirjasto.analyzeData(inputFile, data, results)
-        elif (slct == 3):
-            HT_kirjasto.writeResults(results)
-        elif (slct == 4):
-            HT_kirjasto.dayAnalysis(data)
-        elif (slct == 5):
-            HT_kirjasto.monthAnalysis(data)
-        elif (slct == 6):
-            HT_kirjasto.hourlyAnalysis(data)
-        elif (slct == 7):
-            HT_kirjasto.cumulativeAnalysis(data)
-        elif (slct == 0):
-            break
-        else:
-            print("Valintaa ei tunnistettu, yritä uudestaan.")
-        print()
-    data.clear()
-    results.clear()
-    print("Kiitos ohjelman käytöstä.")      
-    return None
+	def paaohjelma():
+	    data = []
+	    results = []
+	    inputFile = ""
+	    while True:
+		slct = menu()
+		if (slct == 1):
+		    inputFile = input("Anna luettavan tiedoston nimi: ")
+		    data = HT_kirjasto.readFile(inputFile, data)
+		elif (slct == 2):
+		    results = HT_kirjasto.analyzeData(inputFile, data, results)
+		elif (slct == 3):
+		    HT_kirjasto.writeResults(results)
+		elif (slct == 4):
+		    HT_kirjasto.dayAnalysis(data)
+		elif (slct == 5):
+		    HT_kirjasto.monthAnalysis(data)
+		elif (slct == 6):
+		    HT_kirjasto.hourlyAnalysis(data)
+		elif (slct == 7):
+		    HT_kirjasto.cumulativeAnalysis(data)
+		elif (slct == 0):
+		    break
+		else:
+		    print("Valintaa ei tunnistettu, yritä uudestaan.")
+		print()
+	    data.clear()
+	    results.clear()
+	    print("Kiitos ohjelman käytöstä.")      
+	    return None
 
-paaohjelma()
+	paaohjelma()
 
-# eof
+	# eof
 
 ###################################################################
-# 20210703 th
-# HT_kirjasto.py
-# version 2.08
-import datetime
-import sys
+	# 20210703 th
+	# HT_kirjasto.py
+	# version 2.08
+	import datetime
+	import sys
 
-hoursInADay = 24
+	hoursInADay = 24
 
-class DATAENTRY:
-    time = ""
-    value = 0
+	class DATAENTRY:
+	    time = ""
+	    value = 0
 
-def readFile(fileName, data):
-    data.clear()
-    try:
-        file = open(fileName, "r")
-        file.readline() # skip header row
-        rowStr = file.readline()[:-1]
-        row = []
-        while True:
-            if (rowStr == ""):
-                break
-            row = rowStr.split(";")
-            entry = DATAENTRY()
-            entry.value = int(row[2])
-            entry.time = datetime.datetime.strptime(
-                row[0] + " " + row[1], "%Y-%m-%d %H:%M")
-            data.append(entry)
-            rowStr = file.readline()[:-1]
-        row.clear()
-        file.close()
-    except Exception:
-        print("Tiedoston '" + fileName + "' käsittelyssä virhe, lopetetaan.")
-        sys.exit(0)
-    print("Tiedosto '" + fileName + "' luettu.")
-    return data
+	def readFile(fileName, data):
+	    data.clear()
+	    try:
+		file = open(fileName, "r")
+		file.readline() # skip header row
+		rowStr = file.readline()[:-1]
+		row = []
+		while True:
+		    if (rowStr == ""):
+			break
+		    row = rowStr.split(";")
+		    entry = DATAENTRY()
+		    entry.value = int(row[2])
+		    entry.time = datetime.datetime.strptime(
+			row[0] + " " + row[1], "%Y-%m-%d %H:%M")
+		    data.append(entry)
+		    rowStr = file.readline()[:-1]
+		row.clear()
+		file.close()
+	    except Exception:
+		print("Tiedoston '" + fileName + "' käsittelyssä virhe, lopetetaan.")
+		sys.exit(0)
+	    print("Tiedosto '" + fileName + "' luettu.")
+	    return data
 
-def analyzeData(fileName, data, results):
-    dataLen = len(data)
-    if (dataLen != 0):
-        results.clear()
-        results.append("Analysoitiin tiedosto " + fileName + ", jossa oli " \
-                        + str(dataLen) + " auringonpaistetietoa väliltä " + \
-                        data[0].time.strftime("%d.%m.%Y") + \
-                        " – " + data[-1].time.strftime("%d.%m.%Y."))
-        # For perfomance reasons analyzes are done in the same loop if possible
-        iMinVal = 0
-        # Get a non-zero, non-negative initial min value if one exists
-        for i in range(dataLen):
-            if (data[iMinVal].value > 0):
-                break
-            iMinVal += 1
-        iMaxVal = 0
-        sumVal = 0
-        for i in range(dataLen):
-            sumVal += data[i].value
-            if (0 < data[i].value and data[i].value < data[iMinVal].value):
-                iMinVal = i
-            elif (data[i].value > data[iMaxVal].value):
-                iMaxVal = i
-                
-        results.append("Aurinko paistoi yhteensä " + str(int(sumVal / 3600)) + \
-                       " tuntia.")
+	def analyzeData(fileName, data, results):
+	    dataLen = len(data)
+	    if (dataLen != 0):
+		results.clear()
+		results.append("Analysoitiin tiedosto " + fileName + ", jossa oli " \
+				+ str(dataLen) + " auringonpaistetietoa väliltä " + \
+				data[0].time.strftime("%d.%m.%Y") + \
+				" – " + data[-1].time.strftime("%d.%m.%Y."))
+		# For perfomance reasons analyzes are done in the same loop if possible
+		iMinVal = 0
+		# Get a non-zero, non-negative initial min value if one exists
+		for i in range(dataLen):
+		    if (data[iMinVal].value > 0):
+			break
+		    iMinVal += 1
+		iMaxVal = 0
+		sumVal = 0
+		for i in range(dataLen):
+		    sumVal += data[i].value
+		    if (0 < data[i].value and data[i].value < data[iMinVal].value):
+			iMinVal = i
+		    elif (data[i].value > data[iMaxVal].value):
+			iMaxVal = i
 
-        daysDelta = (data[-1].time - data[0].time).days + 1
-        avgVal = str(int(sumVal / daysDelta / 3600))
-        results.append("Keskimäärin aurinko paistoi " + avgVal + \
-                       " tuntia päivässä.")
-        
-        maxStr = "Aurinko paistoi eniten " + data[iMaxVal].time.strftime(
-            "%d.%m.%Y kello %H:%M") + ", jolloin se paistoi " + \
-            str(int(data[iMaxVal].value / 60)) + " minuuttia tunnissa."
-        results.append(maxStr)
-        
-        minStr = "Aurinko paistoi vähiten " + data[iMinVal].time.strftime(
-            "%d.%m.%Y kello %H:%M") + ", jolloin se paistoi " + \
-            str(data[iMinVal].value) + " sekuntia tunnissa."
-        results.append(minStr)
+		results.append("Aurinko paistoi yhteensä " + str(int(sumVal / 3600)) + \
+			       " tuntia.")
 
-        print("Analyysi tehty, analysoitiin", dataLen, "data-alkiota.")
-    else:
-        print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
-    return results
+		daysDelta = (data[-1].time - data[0].time).days + 1
+		avgVal = str(int(sumVal / daysDelta / 3600))
+		results.append("Keskimäärin aurinko paistoi " + avgVal + \
+			       " tuntia päivässä.")
 
-def writeResults(results):
-    resultsLen = len(results)
-    if (resultsLen != 0):
-        fileName = input("Anna kirjoitettavan tiedoston nimi: ")
-        for i in range(resultsLen):
-            print(results[i])
-        try:
-            file = open(fileName, "w")
-            for i in range(resultsLen):
-                file.write(results[i] + "\n")
-            print("Tulokset tallennettu tiedostoon '" + fileName + "'.")
-            file.close()
-        except Exception:
-            print("Tiedoston '" + fileName + \
-                  "' käsittelyssä virhe, lopetetaan.")
-            sys.exit(0)            
-    else:
-        print("Ei tuloksia. Analysoi data ennen tallennusta.")
-    return None
+		maxStr = "Aurinko paistoi eniten " + data[iMaxVal].time.strftime(
+		    "%d.%m.%Y kello %H:%M") + ", jolloin se paistoi " + \
+		    str(int(data[iMaxVal].value / 60)) + " minuuttia tunnissa."
+		results.append(maxStr)
 
-def writeCsv(fileName, results):
-    try:
-        file = open(fileName, "w")
-        for i in range(len(results)):
-            file.write(results[i] + "\n")
-        file.close()
-    except Exception:
-        print("Tiedoston '" + fileName + \
-              "' käsittelyssä virhe, lopetetaan.")
-        sys.exit(0)            
-    return None
+		minStr = "Aurinko paistoi vähiten " + data[iMinVal].time.strftime(
+		    "%d.%m.%Y kello %H:%M") + ", jolloin se paistoi " + \
+		    str(data[iMinVal].value) + " sekuntia tunnissa."
+		results.append(minStr)
 
-def dayAnalysis(data):
-    dataLen = len(data)
-    if (dataLen != 0):
-        dayList = ["Pvm;Paisteaika (m)",]
+		print("Analyysi tehty, analysoitiin", dataLen, "data-alkiota.")
+	    else:
+		print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
+	    return results
 
-        dailyCumSum = data[0].value
-        day = data[0].time.day
-        for i in range(1, dataLen):
-            if (day == data[i].time.day):
-                dailyCumSum += data[i].value
-            else:
-                dailyCumSum = int(dailyCumSum / 60)
-                outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
-                            str(dailyCumSum)
-                dayList.append(outputStr)
-                day = data[i].time.day
-                dailyCumSum = data[i].value
-        # "i + 1 loop", required to tally the final day.
-        dailyCumSum = int(dailyCumSum / 60)
-        outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
-                    str(dailyCumSum)
-        dayList.append(outputStr)
-        
-        writeCsv("paiva.csv", dayList)
-        dayList.clear()
-        print("Päiväanalyysi tehty.")
-    else:
-        print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
-    return None
+	def writeResults(results):
+	    resultsLen = len(results)
+	    if (resultsLen != 0):
+		fileName = input("Anna kirjoitettavan tiedoston nimi: ")
+		for i in range(resultsLen):
+		    print(results[i])
+		try:
+		    file = open(fileName, "w")
+		    for i in range(resultsLen):
+			file.write(results[i] + "\n")
+		    print("Tulokset tallennettu tiedostoon '" + fileName + "'.")
+		    file.close()
+		except Exception:
+		    print("Tiedoston '" + fileName + \
+			  "' käsittelyssä virhe, lopetetaan.")
+		    sys.exit(0)            
+	    else:
+		print("Ei tuloksia. Analysoi data ennen tallennusta.")
+	    return None
 
-def monthAnalysis(data):
-    dataLen = len(data)
-    if (dataLen != 0):
-        monthlyList = ["Kuukausi;Paisteaika (h)",]
-        
-        # "Zeroth" loop as initial values
-        monthlyCumSum = data[0].value
-        month = data[0].time.month
-        for i in range(1, dataLen):
-            if (month == data[i].time.month):
-                 monthlyCumSum += data[i].value
-            else:
-                monthlyCumSum = int(monthlyCumSum / 3600)
-                outputStr = data[i - 1].time.strftime("%b;") + \
-                            str(monthlyCumSum)
-                monthlyList.append(outputStr)
-                month = data[i].time.month
-                monthlyCumSum = data[i].value
-        # "i + 1 loop", required to tally the final month.
-        # final test outside the loop for performance
-        if (month == data[i - 1].time.month):
-            monthlyCumSum = int(monthlyCumSum / 3600)
-            outputStr = data[i - 1].time.strftime("%b;") + \
-                        str(monthlyCumSum)
-            monthlyList.append(outputStr)
-        else: # edge case for when there's exactly one entry for the final month
-            monthlyCumSum = int(monthlyCumSum / 3600)
-            outputStr = data[i].time.strftime("%b;") + \
-                        str(monthlyCumSum)
-            monthlyList.append(outputStr)
-        
-        writeCsv("kuukausi.csv", monthlyList)
-        monthlyList.clear()
-        print("Kuukausianalyysi tehty.")
-    else:
-        print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
-    return None
+	def writeCsv(fileName, results):
+	    try:
+		file = open(fileName, "w")
+		for i in range(len(results)):
+		    file.write(results[i] + "\n")
+		file.close()
+	    except Exception:
+		print("Tiedoston '" + fileName + \
+		      "' käsittelyssä virhe, lopetetaan.")
+		sys.exit(0)            
+	    return None
 
-def hourlyAnalysis(data):
-    dataLen = len(data)
-    if (dataLen != 0):
-        hourList = ["Klo;Paisteaika (h)",]
+	def dayAnalysis(data):
+	    dataLen = len(data)
+	    if (dataLen != 0):
+		dayList = ["Pvm;Paisteaika (m)",]
 
-        hourValues = [0] * hoursInADay 
-        for i in range(dataLen):
-            hour = int(data[i].time.strftime("%H"))
-            hourValues[hour] += data[i].value
+		dailyCumSum = data[0].value
+		day = data[0].time.day
+		for i in range(1, dataLen):
+		    if (day == data[i].time.day):
+			dailyCumSum += data[i].value
+		    else:
+			dailyCumSum = int(dailyCumSum / 60)
+			outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
+				    str(dailyCumSum)
+			dayList.append(outputStr)
+			day = data[i].time.day
+			dailyCumSum = data[i].value
+		# "i + 1 loop", required to tally the final day.
+		dailyCumSum = int(dailyCumSum / 60)
+		outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
+			    str(dailyCumSum)
+		dayList.append(outputStr)
 
-        for i in range(hoursInADay):
-            hourSum = int(hourValues[i] / 3600)
-            hourList.append(str(i) + ";" + str(hourSum))
-        
-        writeCsv("tunti.csv", hourList)
-        hourValues.clear()
-        hourList.clear()
-        print("Tuntianalyysi tehty.")
-    else:
-        print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
-    return None
+		writeCsv("paiva.csv", dayList)
+		dayList.clear()
+		print("Päiväanalyysi tehty.")
+	    else:
+		print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
+	    return None
 
-def cumulativeAnalysis(data):
-    dataLen = len(data)
-    if (dataLen != 0):
-        dayList = ["Pvm;Paisteaika (h)",]
+	def monthAnalysis(data):
+	    dataLen = len(data)
+	    if (dataLen != 0):
+		monthlyList = ["Kuukausi;Paisteaika (h)",]
 
-        dailyCumSum = data[0].value
-        day = data[0].time.day
-        sumSoFar = 0
-        for i in range(1, dataLen):
-            if (day == data[i].time.day):
-                dailyCumSum += data[i].value
-            else:
-                sumSoFar = int(dailyCumSum / 3600)
-                outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
-                            str(sumSoFar)
-                dayList.append(outputStr)
-                day = data[i].time.day
-                dailyCumSum += data[i].value
-        # "i + 1 loop", required to tally the final day.
-        dailyCumSum = int(dailyCumSum / 3600)
-        outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
-                    str(dailyCumSum)
-        dayList.append(outputStr)
-        
-        writeCsv("kumulatiivinen.csv", dayList)
-        dayList.clear()
-        print("Kumulatiivinen päiväanalyysi tehty.")
-    else:
-        print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
-    return None
+		# "Zeroth" loop as initial values
+		monthlyCumSum = data[0].value
+		month = data[0].time.month
+		for i in range(1, dataLen):
+		    if (month == data[i].time.month):
+			 monthlyCumSum += data[i].value
+		    else:
+			monthlyCumSum = int(monthlyCumSum / 3600)
+			outputStr = data[i - 1].time.strftime("%b;") + \
+				    str(monthlyCumSum)
+			monthlyList.append(outputStr)
+			month = data[i].time.month
+			monthlyCumSum = data[i].value
+		# "i + 1 loop", required to tally the final month.
+		# final test outside the loop for performance
+		if (month == data[i - 1].time.month):
+		    monthlyCumSum = int(monthlyCumSum / 3600)
+		    outputStr = data[i - 1].time.strftime("%b;") + \
+				str(monthlyCumSum)
+		    monthlyList.append(outputStr)
+		else: # edge case for when there's exactly one entry for the final month
+		    monthlyCumSum = int(monthlyCumSum / 3600)
+		    outputStr = data[i].time.strftime("%b;") + \
+				str(monthlyCumSum)
+		    monthlyList.append(outputStr)
+
+		writeCsv("kuukausi.csv", monthlyList)
+		monthlyList.clear()
+		print("Kuukausianalyysi tehty.")
+	    else:
+		print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
+	    return None
+
+	def hourlyAnalysis(data):
+	    dataLen = len(data)
+	    if (dataLen != 0):
+		hourList = ["Klo;Paisteaika (h)",]
+
+		hourValues = [0] * hoursInADay 
+		for i in range(dataLen):
+		    hour = int(data[i].time.strftime("%H"))
+		    hourValues[hour] += data[i].value
+
+		for i in range(hoursInADay):
+		    hourSum = int(hourValues[i] / 3600)
+		    hourList.append(str(i) + ";" + str(hourSum))
+
+		writeCsv("tunti.csv", hourList)
+		hourValues.clear()
+		hourList.clear()
+		print("Tuntianalyysi tehty.")
+	    else:
+		print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
+	    return None
+
+	def cumulativeAnalysis(data):
+	    dataLen = len(data)
+	    if (dataLen != 0):
+		dayList = ["Pvm;Paisteaika (h)",]
+
+		dailyCumSum = data[0].value
+		day = data[0].time.day
+		sumSoFar = 0
+		for i in range(1, dataLen):
+		    if (day == data[i].time.day):
+			dailyCumSum += data[i].value
+		    else:
+			sumSoFar = int(dailyCumSum / 3600)
+			outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
+				    str(sumSoFar)
+			dayList.append(outputStr)
+			day = data[i].time.day
+			dailyCumSum += data[i].value
+		# "i + 1 loop", required to tally the final day.
+		dailyCumSum = int(dailyCumSum / 3600)
+		outputStr = data[i - 1].time.strftime("%d.%m.%Y;") + \
+			    str(dailyCumSum)
+		dayList.append(outputStr)
+
+		writeCsv("kumulatiivinen.csv", dayList)
+		dayList.clear()
+		print("Kumulatiivinen päiväanalyysi tehty.")
+	    else:
+		print("Lista on tyhjä. Lue tiedosto ennen analyysiä.")
+	    return None
 
 ##########################################
 # eof
