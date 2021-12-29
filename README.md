@@ -142,7 +142,7 @@ poistaisi vain osoittimet jättäen dynaamisesti varatut oliot muistiin.
 Toinen asia, mitä pohdin lyhyesti oli mahdollisuus siirtää ohjelmointiparagdimmiä enemmän olio-ohjelmoinnin suuntaan ja
 kapsuloida funktoita luokkametodeiksi. Mietin myös mahdollisuutta kirjoittaa std::put_time kutsut luokkametodiksi, mutta 
 eri analyysit halusivat erilaisia aikatageja, mikä vähensi hieman tämän hyödyllisyyttä. Viimeisenä mainittakoon, että C++11
-olisi sallinut auto initilisaattorin käytön tyypin sijaan useissa kohdissa, mutta en nähnyt tätä olelliseeksi.
+olisi sallinut auto initialisaattorin käytön tyypin sijaan useissa kohdissa, mutta en nähnyt tätä olelliseeksi.
 
 ----------------------------------------------------------------------------------------------------------------------
 
