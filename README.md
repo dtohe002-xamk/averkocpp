@@ -11,42 +11,42 @@ Sovelluksen tehtävänä on lukea tekstimuotoon tallennettua aurinkopaneelien ke
 Sovellus suoritetaan kutsumalla sitä komentoriviltä ilman parametrejä tai argumenttejä.
 Sovelluksen käyttöliittymä on valikkopohjainen ja sitä ohjataan numerovalinnoilla komentoriviltä.
 	
-Käyttöliittymä:
-	Mitä haluat tehdä:
-	1) Lue tiedosto
-	2) Analysoi tiedot
-	3) Tallenna tulokset
-	4) Päiväanalyysi
-	5) Kuukausianalyysi
-	6) Tuntianalyysi
-	7) Kumulatiivinen päiväanalyysi
-	0) Lopeta
-	Valintasi:
+	Käyttöliittymä:
+		Mitä haluat tehdä:
+		1) Lue tiedosto
+		2) Analysoi tiedot
+		3) Tallenna tulokset
+		4) Päiväanalyysi
+		5) Kuukausianalyysi
+		6) Tuntianalyysi
+		7) Kumulatiivinen päiväanalyysi
+		0) Lopeta
+		Valintasi:
 	
 Valinta 1) kysyy luettavan tiedoston nimeä ja lataa sen sisällön muistiin (olioina vektoritaulokkoon). Tiedoston avauksen tai luvun epäonnistuessa sovellus tulostaa virheilmoituksen ja sulkee itsensä.
 
-Esimerkkiajo:
-	Valintasi: 1
-	Anna luettavan tiedoston nimi: data15.txt
-	Tiedosto 'data15.txt' luettu.
+	Esimerkkiajo:
+		Valintasi: 1
+		Anna luettavan tiedoston nimi: data15.txt
+		Tiedosto 'data15.txt' luettu.
 
 Valinta 2) on käytettävissä vasta kuin tiedosto on luettu. Jos tiedostoa ei ole luettu, se palauttaa käyttäjän päävalikkoon. Jos tiedosto on luettu, valinta laskee analysyyit ja kirjaa ne merkkijonoina ylös vektoritaulokkoon. Analyysin jälkeen ohjelma tulostaa ruudulle käsiteltyjen alkioiden määrän ja aikavälin, jolta ne ovat.
 
-Esimerkkiajo:
-	Valintasi: 2
-	Analyysi tehty, analysoitiin 15 data-alkiota.
+	Esimerkkiajo:
+		Valintasi: 2
+		Analyysi tehty, analysoitiin 15 data-alkiota.
 
 Valinta 3) on käytettävissä valintojen 1 ja 2 jälkeen. Se kysyy tallennettavan tiedoston nimeä ja tulostaa tiedot ensin ruudulle ja sen jälkeen tiedostoon. Tämä siksi, jotta tulokset näkyvät ruudulla, vaikka tiedoston luonti epäonnistuisi.
 
-Esimerkkiajo:
-	Valintasi: 3
-	Anna kirjoitettavan tiedoston nimi: test.txt
-	Analysoitiin tiedosto data15.txt, jossa oli 15 auringonpaistetietoa väliltä 31.05.2018 - 01.06.2018
-	Aurinko paistoi yhteensä 8 tuntia.
-	Keskimäärin aurinko paistoi 8 tuntia päivässä.
-	Aurinko paistoi eniten 01.06.2018 06:00, jolloin se paistoi 60 minuuttia tunnissa.
-	Aurinko paistoi vähiten 01.06.2018 01:00, jolloin se paistoi 5 sekuntia tunnissa.
-	Tulokset tallennettu tiedostoon 'test.txt'.
+	Esimerkkiajo:
+		Valintasi: 3
+		Anna kirjoitettavan tiedoston nimi: test.txt
+		Analysoitiin tiedosto data15.txt, jossa oli 15 auringonpaistetietoa väliltä 31.05.2018 - 01.06.2018
+		Aurinko paistoi yhteensä 8 tuntia.
+		Keskimäärin aurinko paistoi 8 tuntia päivässä.
+		Aurinko paistoi eniten 01.06.2018 06:00, jolloin se paistoi 60 minuuttia tunnissa.
+		Aurinko paistoi vähiten 01.06.2018 01:00, jolloin se paistoi 5 sekuntia tunnissa.
+		Tulokset tallennettu tiedostoon 'test.txt'.
 
 Valintojen 1, 2, 3 tiedoston käsittelysylki on toistettavissa useille eri tiedoistoille yhden sovelluksen ajokerran aikana niin haluttaessa.
 
@@ -54,9 +54,9 @@ Valinnat 4-7 ovat erikoistuneempia analyyseja, jotka luovat etukäteen määrite
 
 Valinta 4) laskee auringonpaisteen määrän minuutteeina joka päivälle ja tulostaa ne "paiva.csv" tiedostoon.
 
-Esimerkkiajo:
-	Valintasi: 4
-	Päiväanalyysi tehty.
+	Esimerkkiajo:
+		Valintasi: 4
+		Päiväanalyysi tehty.
 
 	paiva.csv:
 		Pvm;Paisteaika (m)
@@ -65,9 +65,9 @@ Esimerkkiajo:
 
 Valinta 5) laskee auringonpaisteen määrän tunteina joka kuukaudelle ja tulostaa ne "kuukausi.csv" tiedostoon.
 
-Esimerkkiajo:
-	Valintasi: 5
-	Kuukausianalyysi tehty.
+	Esimerkkiajo:
+		Valintasi: 5
+		Kuukausianalyysi tehty.
 	
 	kuukausi.csv:
 		Kuukausi;Paisteaika (h)
@@ -76,9 +76,9 @@ Esimerkkiajo:
 		
 Valinta 6) laskee auringopaisteen jakautuman eri tunneille koko keruujakson yli ja tulostaa sen "tunti.csv" tiedostoon.
 
-Esimerkkiajo:
-	Valintasi: 6
-	Tuntianalyysi tehty.
+	Esimerkkiajo:
+		Valintasi: 6
+		Tuntianalyysi tehty.
 	
 	tunti.csv:
 		Klo;Paisteaika (h)
@@ -90,9 +90,9 @@ Esimerkkiajo:
 		
 Valinta 7) laskee kumulatiivisen auringonpaisteen kertymän päivittäin ja tulostaa sen "kumulatiivinen.csv" tiedostoon.
 
-Esimerkkiajo:
-	Valintasi: 7
-	Kumulatiivinen päiväanalyysi tehty.
+	Esimerkkiajo:
+		Valintasi: 7
+		Kumulatiivinen päiväanalyysi tehty.
 	
 	kumulatiivinen.csv:
 		Pvm;Paisteaika (h)
