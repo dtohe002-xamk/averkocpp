@@ -152,6 +152,7 @@ Alkuperäinen Python-lähdekoodi, jonka kirjoitin kesällä 2021.
 #############################################################################################################
 	# 20210703 th
 	# HT.py
+	
 	import HT_kirjasto
 
 	def menu():
@@ -207,6 +208,7 @@ Alkuperäinen Python-lähdekoodi, jonka kirjoitin kesällä 2021.
 	# 20210703 th
 	# HT_kirjasto.py
 	# version 2.08
+	
 	import datetime
 	import sys
 
